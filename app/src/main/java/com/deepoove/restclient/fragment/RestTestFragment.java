@@ -23,19 +23,15 @@ import com.deepoove.restclient.view.OnRestFragmentView;
 
 import java.util.List;
 
-
 public class RestTestFragment extends Fragment implements OnRestFragmentView {
 
     private int position;
-
     RecyclerView mRecyclerView;
     RestTestAdapter mAdapter;
-
     private RestTestPresenter presenter;
 
     public RestTestFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,23 +40,19 @@ public class RestTestFragment extends Fragment implements OnRestFragmentView {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rest_test, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.restlist);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(
-                new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        presenter.clickItem(position);
-                    }
-                }
-        );
+        ItemClickSupport.addTo(mRecyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                presenter.clickItem(position);
+            }
+        });
         ItemClickSupport.addTo(mRecyclerView).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
@@ -68,7 +60,6 @@ public class RestTestFragment extends Fragment implements OnRestFragmentView {
                 return false;
             }
         });
-
         presenter.onCreate();
         return view;
     }
@@ -77,20 +68,19 @@ public class RestTestFragment extends Fragment implements OnRestFragmentView {
     public boolean onContextItemSelected(MenuItem item) {
         int position = this.position;
         int id = item.getItemId();
-        switch (id) {
-            case R.id.rest_delete:
-                presenter.removeItem(position);
-                return true;
-            case R.id.rest_copy_request:
-                presenter.copyItem(position);
-                mAdapter.notifyDataSetChanged();
-                return true;
-            case R.id.rest_sort_up:
-                presenter.upSortItem(position);
-                return true;
-            case R.id.rest_sort_down:
-                presenter.downSortItem(position);
-                return true;
+        if (id == R.id.rest_delete) {
+            presenter.removeItem(position);
+            return true;
+        } else if (id == R.id.rest_copy_request) {
+            presenter.copyItem(position);
+            mAdapter.notifyDataSetChanged();
+            return true;
+        } else if (id == R.id.rest_sort_up) {
+            presenter.upSortItem(position);
+            return true;
+        } else if (id == R.id.rest_sort_down) {
+            presenter.downSortItem(position);
+            return true;
         }
         return super.onContextItemSelected(item);
     }
