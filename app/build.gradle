@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    namespace "com.deepoove.restclient"
+    compileSdkVersion 36
+    buildToolsVersion '36.0.0'
+
     defaultConfig {
         applicationId "com.deepoove.restclient"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 36
         versionCode 1
         versionName "0.9.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
