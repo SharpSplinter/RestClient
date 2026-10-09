@@ -10,18 +10,16 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * @author Sayi
  */
-
 public class RestClientApplication extends MultiDexApplication {
-
 
     public static final String PREFS_NAME = "conf_prefs";
 
     private static Settings settings;
 
-
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashLogger.install(this);
         settings = new Settings(this, PREFS_NAME);
         Template.getInstance(getResources());
         VolleySingleton.getInstance(getApplicationContext());
