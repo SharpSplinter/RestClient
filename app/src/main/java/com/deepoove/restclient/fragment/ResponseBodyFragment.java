@@ -107,10 +107,16 @@ public class ResponseBodyFragment extends Fragment {
                 String contentType = headers.get("Content-type");
                 if (null != text && null != contentType) {
                     if (-1 != contentType.indexOf("application/json")) {
-                        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-                        JsonParser jp = new JsonParser();
-                        JsonElement je = jp.parse(text);
-                        text = gson.toJson(je);
+                        // Keep the raw response visible even when the server returns
+                        // malformed JSON or an unexpected content type/body.
+                        try {
+                            Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                            JsonParser jp = new JsonParser();
+                            JsonElement je = jp.parse(text);
+                            text = gson.toJson(je);
+                        } catch (RuntimeException parseError) {
+                            android.util.Log.w("RestClient", "Could not pretty-print JSON response; showing raw body", parseError);
+                        }
                     } else if (-1 != contentType.indexOf("application/xml")) {
                         SAXBuilder jdomBuilder = new SAXBuilder();
                         try {
